@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Medical Report | MediPredict</title><link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='4') }}"></head>
+<body>
+  <main class="container report-page">
+    {% if prediction %}
+    <section class="history-card">
+      <span class="mark"></span>
+      <h1>MediPredict Report</h1>
+      <p class="form-help">Generated {{ prediction.created_at }}</p>
+      <div class="report-summary">
+        <div><b>Model</b><span>{{ prediction.condition_name|title }}</span></div>
+        <div><b>Prediction</b><span>{{ prediction.result }}</span></div>
+        <div><b>Disease Chance</b><span>{{ prediction.probability }}%</span></div>
+        <div><b>Confidence</b><span>{{ prediction.confidence }}%</span></div>
+        <div><b>Risk Level</b><span>{{ prediction.risk_level }}</span></div>
+      </div>
+      <h2>Input Values</h2>
+      <div class="rec-grid">{% for key, value in prediction.input_values.items() %}<div class="rec"><b>{{ key }}</b><br>{{ value }}</div>{% endfor %}</div>
+      <h2>Top Factors Affecting Prediction</h2>
+      <div class="factor-list">{% for factor in prediction.top_factors %}<div class="factor-row"><span>{{ factor.name }}</span><b>{{ factor.importance }}%</b><i style="--w:{{ factor.importance }}%"></i></div>{% endfor %}</div>
+      <p class="disclaimer"><b>Medical Disclaimer:</b> This report is for educational screening only and is not a medical diagnosis.</p>
+      <div class="result-actions no-print"><button class="btn btn-primary" onclick="window.print()">Save as PDF</button><a class="btn btn-ghost" href="{{ url_for('history') }}">Back to History</a></div>
+    </section>
+    {% else %}
+    <section class="history-card"><h1>Report Not Found</h1><a class="btn btn-primary" href="{{ url_for('history') }}">Back to History</a></section>
+    {% endif %}
+  </main>
+  <script src="{{ url_for('static', filename='app.js', v='2') }}"></script>
+</body>
+</html>

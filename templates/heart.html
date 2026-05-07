@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Heart Disease Prediction | MediPredict</title><link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='4') }}"></head>
+<body>
+  <header class="nav"><div class="container nav-inner"><a class="brand" href="{{ url_for('home') }}"><span class="mark"></span><span><span class="brand-title">MediPredict</span><span class="brand-sub">AI HEALTH SUITE</span></span></a><nav class="nav-links"><a href="{{ url_for('home') }}">Home</a><a href="{{ url_for('cancer') }}">Breast Cancer</a><a href="{{ url_for('diabetes') }}">Diabetes</a><a class="active" href="{{ url_for('heart') }}">Heart</a></nav><div class="nav-actions"><a class="pill" href="{{ url_for('history') }}">Patient History</a><a class="btn btn-primary" href="{{ url_for('login') }}">Login</a></div></div></header>
+  <section class="page-hero"><div class="container"><div class="kicker"><span>Diagnostic Suite</span><span class="active">Heart Disease</span></div><div class="title-row"><span class="mark"></span><h1>Heart Disease Prediction</h1></div><p>Enter your latest cardiovascular workup values from your physician.</p></div></section>
+  <main class="container main-grid">
+    <form class="form-card" action="{{ url_for('predict_heart') }}" method="POST">
+      <h2>Patient measurements</h2><p class="form-help">All fields required. Use the most recent values from your physician.</p>{% if errors %}<div class="error-box">{% for error in errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+      <div class="fields">
+        <div class="field"><label>Max Heart Rate - thalach <span class="unit">bpm</span></label><input name="thalach" type="number" step="0.01" min="60" max="220" required placeholder="e.g. 165"><small>Maximum heart rate achieved during exercise.</small></div>
+        <div class="field"><label>Chest Pain Type - cp</label><input name="cp" type="number" step="1" min="0" max="3" required placeholder="0, 1, 2, or 3"><small>Chest pain category used by the heart disease model.</small></div>
+        <div class="field"><label>Major Vessels - ca</label><input name="ca" type="number" step="1" min="0" max="3" required placeholder="0 to 3"><small>Number of major vessels colored by fluoroscopy.</small></div>
+        <div class="field"><label>Thalassemia - thal</label><input name="thal" type="number" step="1" min="1" max="3" required placeholder="1, 2, or 3"><small>1 = normal, 2 = fixed defect, 3 = reversible defect.</small></div>
+        <div class="field"><label>ST Depression - oldpeak</label><input name="oldpeak" type="number" step="0.01" min="0" max="7" required placeholder="e.g. 1.4"><small>ST depression induced by exercise relative to rest.</small></div>
+        <div class="field"><label>Age <span class="unit">yrs</span></label><input name="age" type="number" step="1" min="1" max="120" required placeholder="e.g. 52"><small>Patient age in years.</small></div>
+        <div class="field"><label>Cholesterol - chol <span class="unit">mg/dL</span></label><input name="chol" type="number" step="0.01" min="80" max="600" required placeholder="e.g. 210"><small>Serum cholesterol measurement.</small></div>
+        <div class="field"><label>Resting BP - trestbps <span class="unit">mm Hg</span></label><input name="trestbps" type="number" step="0.01" min="70" max="250" required placeholder="e.g. 130"><small>Resting blood pressure.</small></div>
+      </div>
+      <div class="form-actions"><button class="btn btn-primary" type="submit">Run AI Prediction</button><button class="btn btn-ghost" type="reset">Reset</button></div>
+    </form>
+    <aside class="side-stack">
+      <section class="side-card"><div class="side-head"><span class="soft-icon"></span><h2>Why these metrics matter</h2></div><h3>Cholesterol &amp; BP</h3><p>Together account for &gt;50% of modifiable cardiovascular risk.</p><h3>Max Heart Rate</h3><p>Lower peak HR during stress means poorer chronotropic reserve.</p><h3>ECG</h3><p>ST-T abnormalities or LVH suggest existing cardiac stress.</p></section>
+      <section class="side-card alt"><div class="side-head"><span class="mark"></span><h2>Privacy by design</h2></div><p>Your inputs are processed in your browser. We never transmit raw values without explicit consent.</p></section>
+    </aside>
+  </main>
+  <script src="{{ url_for('static', filename='app.js', v='2') }}"></script>
+</body>
+</html>

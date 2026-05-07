@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Breast Cancer Result | MediPredict</title><link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='4') }}"></head>
+<body>
+  <header class="nav"><div class="container nav-inner"><a class="brand" href="{{ url_for('home') }}"><span class="mark"></span><span><span class="brand-title">MediPredict</span><span class="brand-sub">AI HEALTH SUITE</span></span></a><nav class="nav-links"><a href="{{ url_for('home') }}">Home</a><a class="active" href="{{ url_for('cancer') }}">Breast Cancer</a><a href="{{ url_for('diabetes') }}">Diabetes</a><a href="{{ url_for('heart') }}">Heart</a></nav><div class="nav-actions"><a class="pill" href="{{ url_for('history') }}">Patient History</a><a class="btn btn-primary" href="{{ url_for('login') }}">Login</a></div></div></header>
+  <section class="page-hero"><div class="container"><div class="kicker"><span>Dashboard</span><span>Breast Cancer</span><span class="active">Result</span></div><div class="title-row"><span class="mark"></span><h1>Breast Cancer Detection - Result</h1></div><p>Generated {{ created_at }}</p></div></section>
+  <main class="container">
+    <div class="result-grid">
+      <section class="score-card"><div class="gauge" data-progress-ring data-target="{{ probability }}" data-risk="{{ risk_level|lower|replace(' ', '-') }}" style="--value:0%"><div class="gauge-content"><div class="gauge-label">DISEASE CHANCE</div><div class="percent" data-count-to="{{ probability }}">0<small>%</small></div><div class="risk-tag">{{ risk_level }}</div></div></div><p class="lead">Prediction: <b>{{ prediction_text }}</b>. Model confidence: <b>{{ confidence }}%</b>.</p></section>
+      <section class="chart-card"><div class="side-head"><div><h2>Top Factors Affecting Prediction</h2><p class="form-help">Feature importance from your trained model.</p></div><span class="soft-icon"></span></div><div class="factor-list">{% for factor in top_factors %}<div class="factor-row"><span>{{ factor.name }}</span><b>{{ factor.importance }}%</b><i style="--w:{{ factor.importance }}%"></i></div>{% endfor %}</div></section>
+    </div>
+    <section class="recommend-card"><div class="side-head"><span class="soft-icon"></span><h2>Submitted Values</h2></div><div class="rec-grid">{% for key, value in values.items() %}<div class="rec"><b>{{ key }}</b><br>{{ value }}</div>{% endfor %}</div></section>
+    <div class="result-actions"><a class="btn btn-primary" href="{{ url_for('report', prediction_id=prediction_id) }}">Download Report PDF</a><a class="btn btn-outline" href="{{ url_for('history') }}">Patient History</a><a class="btn btn-ghost" href="{{ url_for('cancer') }}">Re-take Test</a></div>
+  </main>
+  <script src="{{ url_for('static', filename='app.js', v='2') }}"></script>
+</body>
+</html>
